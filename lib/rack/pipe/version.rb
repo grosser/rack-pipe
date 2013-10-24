@@ -1,5 +1,5 @@
 module Rack
-  module Pipe
+  class Pipe
     VERSION = "0.0.0"
   end
 end
