@@ -10,6 +10,8 @@ gem install rack-pipe
 Usage
 =====
 
+
+<!-- example -->
 ```Ruby
 # config.ru
 require 'rack/pipe'
@@ -23,7 +25,7 @@ class FooWare
   # augment the response
   def after(env, status, headers, body)
     body << "\nGood for you!" if status == 200
-    [env, status, headers, body]
+    [status, headers, body]
   end
 end
 
@@ -35,6 +37,7 @@ use Rack::Pipe.new(
 
 run lambda { |env| [200, {}, ["Success"]] }
 ```
+<!-- example -->
 
 ```Bash
 rackup
