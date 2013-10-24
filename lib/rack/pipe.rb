@@ -4,7 +4,7 @@ module Rack
   class Pipe
     def initialize(*pipe_wares)
       @before = pipe_wares.select { |p| p.respond_to?(:before) }
-      @after = pipe_wares.select { |p| p.respond_to?(:after) }
+      @after = pipe_wares.select { |p| p.respond_to?(:after) }.reverse!
     end
 
     def new(app)
