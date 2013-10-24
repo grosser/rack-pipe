@@ -51,6 +51,10 @@ curl localhost:9292?stop
 Bad request!
 ```
 
+# Benchmark
+`rake benchmark`
+100 middlewares with 100 requests and 1 call to `caller`: 0.84s vs 0.39s
+
 Author
 ======
 [Michael Grosser](http://grosser.it)<br/>
