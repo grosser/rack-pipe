@@ -8,7 +8,7 @@ describe Rack::Pipe do
   end
 
   it "passes through if nothing is set up" do
-    pipe = Rack::Pipe.new()
+    pipe = Rack::Pipe.build()
     pipe.new lambda { |env| simple_response  }
     pipe.call({}).should == simple_response
   end
@@ -20,7 +20,7 @@ describe Rack::Pipe do
       end
     end
 
-    pipe = Rack::Pipe.new(ware.new)
+    pipe = Rack::Pipe.build(ware.new)
     pipe.new lambda { |env| simple_response }
     pipe.call({}).should == [200, {}, ["BEFORE"]]
   end
@@ -31,7 +31,7 @@ describe Rack::Pipe do
       end
     end
 
-    pipe = Rack::Pipe.new(ware.new)
+    pipe = Rack::Pipe.build(ware.new)
     pipe.new lambda { |env| simple_response }
     pipe.call({}).should == simple_response
   end
@@ -49,7 +49,7 @@ describe Rack::Pipe do
       end
     end
 
-    pipe = Rack::Pipe.new(ware.new(1), ware.new(2), ware.new(3))
+    pipe = Rack::Pipe.build(ware.new(1), ware.new(2), ware.new(3))
     pipe.new lambda { |env| [200, env, ["x"]] }
     pipe.call({}).should == [200, {"x" => [1,2,3]}, ["x"]]
   end
@@ -67,7 +67,7 @@ describe Rack::Pipe do
       end
     end
 
-    pipe = Rack::Pipe.new(ware.new(1), ware.new(2), ware.new(3))
+    pipe = Rack::Pipe.build(ware.new(1), ware.new(2), ware.new(3))
     pipe.new lambda { |env| simple_response }
     pipe.call({}).should == [202, {"x" => [3,2,1]}, ["AFTER"]]
   end
