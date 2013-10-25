@@ -51,6 +51,29 @@ curl localhost:9292?stop
 Bad request!
 ```
 
+# Compatibility
+
+Every pipe can also be used as rack middleware in case you want to use both.
+
+```Ruby
+# config.ru
+require 'rack/pipe/compatible'
+
+class FooWare < Rack::Pipe::Compatible
+  def before(env)
+    [400, {}, ["Bad request!"]] if env["QUERY_STRING"].include?("stop")
+  end
+
+  def after(env, status, headers, body)
+    body << "\nGood for you!" if status == 200
+    [status, headers, body]
+  end
+end
+
+use FooWare
+run lambda { |env| [200, {}, ["Success"]] }
+```
+
 # Benchmark
 `rake benchmark`
 100 middlewares with 100 requests and 1 call to `caller`: 0.84s vs 0.39s
